@@ -75,7 +75,7 @@ public class ServiceDiscoveryApiServiceImpl implements ServiceDiscoveryApiServic
 
     @Override
     public void addLoadBalancerServiceLink(Service service, LoadBalancerServiceLink serviceLink) {
-        if (!service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND.LOADBALANCERSERVICE.name())) {
+        if (!service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND_LOAD_BALANCER_SERVICE)) {
             return;
         }
 
@@ -195,9 +195,10 @@ public class ServiceDiscoveryApiServiceImpl implements ServiceDiscoveryApiServic
                 Iterator<String> it = map.keySet().iterator();
                 while (it.hasNext()) {
                     String key = it.next();
-                    if (key.equalsIgnoreCase("config")) {
-                        composeServiceData.put("log_opt", map.get(key));
-                    } else if (key.equalsIgnoreCase("driver")) {
+                    if (key.equalsIgnoreCase("config") && map.get(key) != null) {
+                        if (map.get(key) instanceof java.util.Map && !((Map<?, ?>)map.get(key)).isEmpty())
+                            composeServiceData.put("log_opt", map.get(key));
+                    } else if (key.equalsIgnoreCase("driver") && map.get(key) != null && map.get(key) != "") {
                         composeServiceData.put("log_driver", map.get(key));
                     }
                 }
@@ -208,7 +209,7 @@ public class ServiceDiscoveryApiServiceImpl implements ServiceDiscoveryApiServic
     @SuppressWarnings("unchecked")
     protected void populateLoadBalancerServiceLabels(Service service,
             String launchConfigName, Map<String, Object> composeServiceData) {
-        if (!service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND.LOADBALANCERSERVICE.name())) {
+        if (!service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND_LOAD_BALANCER_SERVICE)) {
             return;
         }
 
@@ -324,11 +325,11 @@ public class ServiceDiscoveryApiServiceImpl implements ServiceDiscoveryApiServic
 
     private void addExtraComposeParameters(Service service,
             String launchConfigName, Map<String, Object> composeServiceData) {
-        if (service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND.DNSSERVICE.name())) {
+        if (service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND_DNS_SERVICE)) {
             composeServiceData.put(ServiceDiscoveryConfigItem.IMAGE.getDockerName(), "rancher/dns-service");
-        } else if (service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND.LOADBALANCERSERVICE.name())) {
+        } else if (service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND_LOAD_BALANCER_SERVICE)) {
             composeServiceData.put(ServiceDiscoveryConfigItem.IMAGE.getDockerName(), "rancher/load-balancer-service");
-        } else if (service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND.EXTERNALSERVICE.name())) {
+        } else if (service.getKind().equalsIgnoreCase(ServiceDiscoveryConstants.KIND_EXTERNAL_SERVICE)) {
             composeServiceData.put(ServiceDiscoveryConfigItem.IMAGE.getDockerName(), "rancher/external-service");
         }
     }
