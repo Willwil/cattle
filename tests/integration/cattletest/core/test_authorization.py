@@ -1446,7 +1446,7 @@ def test_registry_credentials(admin_user_client, user_client, project_client):
         'data': 'r',
         'email': 'r',
         'publicValue': 'r',
-        'secretValue': 'r',
+        'secretValue': 'ro',
         'registryId': 'r',
     })
 
@@ -1454,7 +1454,7 @@ def test_registry_credentials(admin_user_client, user_client, project_client):
         'accountId': 'r',
         'email': 'r',
         'publicValue': 'r',
-        'secretValue': 'r',
+        'secretValue': 'ro',
         'registryId': 'r',
     })
 
@@ -1462,7 +1462,7 @@ def test_registry_credentials(admin_user_client, user_client, project_client):
         'accountId': 'r',
         'email': 'cru',
         'publicValue': 'cru',
-        'secretValue': 'cru',
+        'secretValue': 'curo',
         'registryId': 'cr',
     })
 
@@ -2504,10 +2504,10 @@ def test_machine_driver(admin_user_client, user_client, project_client,
         'checksum': 'cru',
         'uiUrl': 'cru',
         'data': 'r',
-        'accountId': 'r',
         'url': 'cru',
         'defaultActive': 'r',
         'builtin': 'cr',
+        'activateOnCreate': 'cr',
     })
 
     auth_check(service_client.schema, 'machineDriver', 'crud', {
@@ -2515,30 +2515,30 @@ def test_machine_driver(admin_user_client, user_client, project_client,
         'checksum': 'cru',
         'uiUrl': 'cru',
         'data': 'r',
-        'accountId': 'r',
         'url': 'cru',
         'defaultActive': 'r',
         'builtin': 'cr',
+        'activateOnCreate': 'cr',
     })
 
     auth_check(user_client.schema, 'machineDriver', 'r', {
         'name': 'r',
         'checksum': 'r',
         'uiUrl': 'r',
-        'accountId': 'r',
         'url': 'r',
         'defaultActive': 'r',
         'builtin': 'r',
+        'activateOnCreate': 'r',
     })
 
     auth_check(project_client.schema, 'machineDriver', 'r', {
         'name': 'r',
         'checksum': 'r',
         'uiUrl': 'r',
-        'accountId': 'r',
         'url': 'r',
         'defaultActive': 'r',
         'builtin': 'r',
+        'activateOnCreate': 'r',
     })
 
 

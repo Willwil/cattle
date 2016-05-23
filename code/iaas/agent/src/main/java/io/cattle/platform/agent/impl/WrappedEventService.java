@@ -90,7 +90,7 @@ public class WrappedEventService implements EventService {
 
         String state = agentDao.getAgentState(agentId);
         if (state == null) {
-            return AsyncUtils.error(new AgentRemovedException("Agent is removed", request));
+            return AsyncUtils.error(new AgentRemovedException("Agent [" + agentId + "] is removed", request));
         } else if (!GOOD_AGENT_STATES.contains(state)) {
             return AsyncUtils.error(new TimeoutException());
         }
@@ -108,7 +108,7 @@ public class WrappedEventService implements EventService {
         });
     }
 
-    /* Boilerplate to implementate interface */
+    /* Boilerplate to implement interface */
     @Override
     public ListenableFuture<?> subscribe(String eventName, EventListener listener) {
         throw new UnsupportedOperationException();

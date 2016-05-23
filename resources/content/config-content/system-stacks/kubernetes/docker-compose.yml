@@ -2,7 +2,7 @@ kubelet:
     labels:
         io.rancher.container.dns: "true"
         io.rancher.container.create_agent: "true"
-        io.rancher.container.agent.role: environment
+        io.rancher.container.agent.role: environmentAdmin
         io.rancher.scheduler.global: "true"
     command:
         - kubelet
@@ -18,6 +18,7 @@ kubelet:
         - /var/run/docker.sock:/var/run/docker.sock
         - /var/run:/host/var/run
         - /var/lib/docker:/var/lib/docker
+        - /dev:/host/dev
     net: host
     pid: host
     ipc: host
@@ -86,7 +87,7 @@ kubectld:
     environment:
         SERVER: http://master
         LISTEN: ":8091"
-    image: rancher/kubectld:v0.1.0
+    image: rancher/kubectld:v0.1.1
     links:
         - kubernetes:master
 
@@ -126,7 +127,7 @@ rancher-kubernetes-agent:
         - kubernetes:master
 
 rancher-ingress-controller:
-    image: rancher/ingress-controller:v0.1.0
+    image: rancher/ingress-controller:v0.1.2
     labels:
         io.rancher.container.create_agent: "true"
         io.rancher.container.agent.role: environment
