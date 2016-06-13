@@ -43,7 +43,23 @@
 
         "auditLog.resourceActions\\..*" : "",
 
+        "backup" : "r",
+        "backup.snapshotId" : "r",
+        "backup.backupTargetId" : "r",
+        "backup.uri" : "r",
+        "backup.volumeId" : "r",
+
+        "backupTarget" : "r",
+        "backupTarget.nfsConfig" : "cr",
+
         "baseMachineConfig": "r",
+
+        "blkioDeviceOption": "r",
+        "blkioDeviceOption.readIops": "cr",
+        "blkioDeviceOption.writeIops": "cr",
+        "blkioDeviceOption.readBps": "cr",
+        "blkioDeviceOption.writeBps": "cr",
+        "blkioDeviceOption.weight": "cr",
 
         "changeSecretInput" : "cr",
         "changeSecretInput.oldSecret" : "cr",
@@ -58,6 +74,7 @@
         "clusterHostMap" : "",
 
         "container" : "r",
+        "container.blkioDeviceOptions" : "cr",
         "container.build" : "cr",
         "container.capAdd" : "cr",
         "container.capDrop" : "cr",
@@ -269,6 +286,7 @@
         "machineDriver.activateOnCreate": "cr",
         "machineDriver.builtin": "cr",
         "machineDriver.defaultActive": "r",
+        "machineDriver.externalId": "cr",
         "machineDriver.name": "r",
         "machineDriver.url": "cru",
         "machineDriver.uiUrl": "cru",
@@ -281,6 +299,12 @@
         "mount.volumeId" : "r",
 
         "network" : "r",
+
+        "nfsConfig" : "r",
+        "nfsConfig.name" : "cr",
+        "nfsConfig.server" : "cr",
+        "nfsConfig.share" : "cr",
+        "nfsConfig.mountOptions" : "cr",
 
         "password" : "crud",
         "password.secretValue" : "cro",
@@ -359,6 +383,12 @@
         "restartPolicy" : "r",
         "restartPolicy.maximumRetryCount" : "cr",
 
+        "revertToSnapshotInput": "r",
+        "revertToSnapshotInput.snapshotId": "cr",
+
+        "restoreFromBackupInput": "r",
+        "restoreFromBackupInput.backupId": "cr",
+
         "schema" : "r",
         "schema\\..*" : "cr",
 
@@ -374,6 +404,7 @@
         "storagePool.driverName": "r",
         "storagePool.volumeAccessMode": "r",
         "storagePool.blockDevicePath": "r",
+        "storagePool.volumeCapabilities": "r",
 
         "subscribe" : "",
         "subscribe.eventNames" : "cr",
@@ -520,8 +551,15 @@
         "loadBalancerService.selectorContainer" : "",
 
         "snapshot" : "r",
-        "snapshot.volumeId" : "cr",
-        "snapshot.managedVolumeUUID" : "r",
+        "snapshot.volumeId" : "r",
+
+        "snapshotBackupInput" : "r",
+        "snapshotBackupInput\\..*" : "",
+        "snapshotBackupInput.backupTargetId" : "cr",
+        "snapshotBackupInput.name" : "cr",
+        "snapshotBackupInput.snapshotId" : "",
+        "snapshotBackupInput.uri" : "",
+        "snapshotBackupInput.volumeId" : "",
 
         "label" : "r",
         "label.type" : "",
@@ -720,9 +758,14 @@
         "virtualMachineDisk" : "r",
         "virtualMachineDisk.name" : "cr",
         "virtualMachineDisk.size" : "cr",
+        "virtualMachineDisk.readIops" : "cr",
+        "virtualMachineDisk.writeIops" : "cr",
         "virtualMachineDisk.opts" : "cr",
         "virtualMachineDisk.driver" : "cr",
         "virtualMachineDisk.root" : "cr",
+
+        "volumeSnapshotInput": "r",
+        "volumeSnapshotInput.name": "cr",
 
         "healthcheckInstanceHostMap" : "r",
         "healthcheckInstanceHostMap.instanceId" : "r",

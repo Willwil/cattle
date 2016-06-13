@@ -78,6 +78,8 @@ def test_user_types(user_client, adds=set(), removes=set()):
         'addRemoveServiceLinkInput',
         'apiKey',
         'auditLog',
+        'backup',
+        'backupTarget',
         'baseMachineConfig',
         'certificate',
         'changeSecretInput',
@@ -136,6 +138,8 @@ def test_user_types(user_client, adds=set(), removes=set()):
         'registry',
         'registryCredential',
         'restartPolicy',
+        'restoreFromBackupInput',
+        'revertToSnapshotInput',
         'schema',
         'service',
         'serviceExposeMap',
@@ -145,6 +149,7 @@ def test_user_types(user_client, adds=set(), removes=set()):
         'setProjectMembersInput',
         'setServiceLinksInput',
         'snapshot',
+        'snapshotBackupInput',
         'statsAccess',
         'storagePool',
         'typeDocumentation',
@@ -173,7 +178,10 @@ def test_user_types(user_client, adds=set(), removes=set()):
         'rollingRestartStrategy',
         'servicesPortRange',
         'healthcheckInstanceHostMap',
-        'recreateOnQuorumStrategyConfig'
+        'recreateOnQuorumStrategyConfig',
+        'volumeSnapshotInput',
+        'nfsConfig',
+        'blkioDeviceOption',
     }
     types.update(adds)
     types.difference_update(removes)
@@ -262,6 +270,8 @@ def test_admin_types(admin_user_client, adds=set(), removes=set()):
         'agent',
         'apiKey',
         'auditLog',
+        'backup',
+        'backupTarget',
         'baseMachineConfig',
         'certificate',
         'changeSecretInput',
@@ -342,6 +352,8 @@ def test_admin_types(admin_user_client, adds=set(), removes=set()):
         'registryCredential',
         'resourceDefinition',
         'restartPolicy',
+        'restoreFromBackupInput',
+        'revertToSnapshotInput',
         'schema',
         'service',
         'serviceExposeMap',
@@ -352,6 +364,7 @@ def test_admin_types(admin_user_client, adds=set(), removes=set()):
         'setServiceLinksInput',
         'setting',
         'snapshot',
+        'snapshotBackupInput',
         'stateTransition',
         'statsAccess',
         'storagePool',
@@ -380,7 +393,10 @@ def test_admin_types(admin_user_client, adds=set(), removes=set()):
         'rollingRestartStrategy',
         'servicesPortRange',
         'healthcheckInstanceHostMap',
-        'recreateOnQuorumStrategyConfig'
+        'recreateOnQuorumStrategyConfig',
+        'volumeSnapshotInput',
+        'nfsConfig',
+        'blkioDeviceOption',
     }
     types.update(adds)
     types.difference_update(removes)
@@ -706,6 +722,7 @@ def test_storagepool_auth(admin_user_client, user_client, project_client):
         'driverName': 'r',
         'volumeAccessMode': 'r',
         'blockDevicePath': 'r',
+        'volumeCapabilities': 'r',
     })
 
     auth_check(user_client.schema, 'storagePool', 'r', {
@@ -715,6 +732,7 @@ def test_storagepool_auth(admin_user_client, user_client, project_client):
         'driverName': 'r',
         'volumeAccessMode': 'r',
         'blockDevicePath': 'r',
+        'volumeCapabilities': 'r',
     })
 
     auth_check(project_client.schema, 'storagePool', 'r', {
@@ -724,6 +742,7 @@ def test_storagepool_auth(admin_user_client, user_client, project_client):
         'driverName': 'r',
         'volumeAccessMode': 'r',
         'blockDevicePath': 'r',
+        'volumeCapabilities': 'r',
     })
 
 
@@ -805,6 +824,7 @@ def test_container_auth(admin_user_client, user_client, project_client):
         'accountId': 'r',
         'agentId': 'r',
         'allocationState': 'r',
+        'blkioDeviceOptions': 'r',
         'build': 'r',
         'capAdd': 'r',
         'capDrop': 'r',
@@ -871,6 +891,7 @@ def test_container_auth(admin_user_client, user_client, project_client):
 
     auth_check(user_client.schema, 'container', 'r', {
         'accountId': 'r',
+        'blkioDeviceOptions': 'r',
         'build': 'r',
         'capAdd': 'r',
         'capDrop': 'r',
@@ -934,6 +955,7 @@ def test_container_auth(admin_user_client, user_client, project_client):
 
     auth_check(project_client.schema, 'container', 'crud', {
         'accountId': 'r',
+        'blkioDeviceOptions': 'cr',
         'build': 'cr',
         'capAdd': 'cr',
         'capDrop': 'cr',
@@ -1476,6 +1498,7 @@ def test_registry(admin_user_client, user_client, project_client):
         'serverAddress': 'r',
         'volumeAccessMode': 'r',
         'blockDevicePath': 'r',
+        'volumeCapabilities': 'r',
     })
 
     auth_check(user_client.schema, 'registry', 'r', {
@@ -1485,6 +1508,7 @@ def test_registry(admin_user_client, user_client, project_client):
         'serverAddress': 'r',
         'volumeAccessMode': 'r',
         'blockDevicePath': 'r',
+        'volumeCapabilities': 'r',
     })
 
     auth_check(project_client.schema, 'registry', 'crud', {
@@ -1494,6 +1518,7 @@ def test_registry(admin_user_client, user_client, project_client):
         'serverAddress': 'cr',
         'volumeAccessMode': 'r',
         'blockDevicePath': 'r',
+        'volumeCapabilities': 'r',
     })
 
 
@@ -2274,6 +2299,7 @@ def test_virtual_machine(admin_user_client, user_client, project_client):
         'accountId': 'r',
         'agentId': 'r',
         'allocationState': 'r',
+        'blkioDeviceOptions': 'r',
         'command': 'r',
         'count': 'r',
         'cpuSet': 'r',
@@ -2325,6 +2351,7 @@ def test_virtual_machine(admin_user_client, user_client, project_client):
 
     auth_check(user_client.schema, 'virtualMachine', 'r', {
         'accountId': 'r',
+        'blkioDeviceOptions': 'r',
         'command': 'r',
         'count': 'r',
         'cpuSet': 'r',
@@ -2373,6 +2400,7 @@ def test_virtual_machine(admin_user_client, user_client, project_client):
 
     auth_check(project_client.schema, 'virtualMachine', 'crud', {
         'accountId': 'r',
+        'blkioDeviceOptions': 'cr',
         'command': 'cr',
         'count': 'cr',
         'cpuSet': 'cr',
@@ -2424,6 +2452,8 @@ def test_virtual_machine_disk(admin_user_client, user_client, project_client):
     auth_check(admin_user_client.schema, 'virtualMachineDisk', 'r', {
         'name': 'r',
         'size': 'r',
+        'readIops': 'r',
+        'writeIops': 'r',
         'opts': 'r',
         'driver': 'r',
         'root': 'r',
@@ -2432,6 +2462,8 @@ def test_virtual_machine_disk(admin_user_client, user_client, project_client):
     auth_check(user_client.schema, 'virtualMachineDisk', 'r', {
         'name': 'r',
         'size': 'r',
+        'readIops': 'r',
+        'writeIops': 'r',
         'opts': 'r',
         'driver': 'r',
         'root': 'r',
@@ -2440,6 +2472,8 @@ def test_virtual_machine_disk(admin_user_client, user_client, project_client):
     auth_check(project_client.schema, 'virtualMachineDisk', 'cr', {
         'name': 'cr',
         'size': 'cr',
+        'readIops': 'cr',
+        'writeIops': 'cr',
         'opts': 'cr',
         'driver': 'cr',
         'root': 'cr',
@@ -2502,6 +2536,7 @@ def test_machine_driver(admin_user_client, user_client, project_client,
     auth_check(admin_user_client.schema, 'machineDriver', 'crud', {
         'name': 'r',
         'checksum': 'cru',
+        'externalId': 'cr',
         'uiUrl': 'cru',
         'data': 'r',
         'url': 'cru',
@@ -2513,6 +2548,7 @@ def test_machine_driver(admin_user_client, user_client, project_client,
     auth_check(service_client.schema, 'machineDriver', 'crud', {
         'name': 'cru',
         'checksum': 'cru',
+        'externalId': 'cr',
         'uiUrl': 'cru',
         'data': 'r',
         'url': 'cru',
@@ -2524,6 +2560,7 @@ def test_machine_driver(admin_user_client, user_client, project_client,
     auth_check(user_client.schema, 'machineDriver', 'r', {
         'name': 'r',
         'checksum': 'r',
+        'externalId': 'r',
         'uiUrl': 'r',
         'url': 'r',
         'defaultActive': 'r',
@@ -2534,6 +2571,7 @@ def test_machine_driver(admin_user_client, user_client, project_client,
     auth_check(project_client.schema, 'machineDriver', 'r', {
         'name': 'r',
         'checksum': 'r',
+        'externalId': 'r',
         'uiUrl': 'r',
         'url': 'r',
         'defaultActive': 'r',
@@ -2653,4 +2691,67 @@ def test_machine(admin_user_client, user_client, project_client,
         'engineLabel': 'r',
         'engineStorageDriver': 'r',
         'engineEnv': 'r',
+    })
+
+
+def test_snapshot_auth(admin_user_client, user_client, project_client):
+    auth_check(admin_user_client.schema, 'snapshot', 'r', {
+        'accountId': 'r',
+        'data': 'r',
+        'volumeId': 'r',
+        })
+
+    auth_check(user_client.schema, 'snapshot', 'r', {
+        'accountId': 'r',
+        'volumeId': 'r',
+        })
+
+    auth_check(project_client.schema, 'snapshot', 'rd', {
+        'accountId': 'r',
+        'volumeId': 'r',
+        })
+
+
+def test_backup_auth(admin_user_client, user_client, project_client):
+    auth_check(admin_user_client.schema, 'backup', 'r', {
+        'accountId': 'r',
+        'data': 'r',
+        'backupTargetId': 'r',
+        'snapshotId': 'r',
+        'uri': 'r',
+        'volumeId': 'r',
+        })
+
+    auth_check(user_client.schema, 'backup', 'r', {
+        'accountId': 'r',
+        'backupTargetId': 'r',
+        'snapshotId': 'r',
+        'uri': 'r',
+        'volumeId': 'r',
+        })
+
+    auth_check(project_client.schema, 'backup', 'rd', {
+        'accountId': 'r',
+        'backupTargetId': 'r',
+        'snapshotId': 'r',
+        'uri': 'r',
+        'volumeId': 'r',
+        })
+
+
+def test_backup_target_auth(admin_user_client, user_client, project_client):
+    auth_check(admin_user_client.schema, 'backupTarget', 'r', {
+        'accountId': 'r',
+        'data': 'r',
+        'nfsConfig': 'r',
+    })
+
+    auth_check(user_client.schema, 'backupTarget', 'r', {
+        'accountId': 'r',
+        'nfsConfig': 'r',
+    })
+
+    auth_check(project_client.schema, 'backupTarget', 'crd', {
+        'accountId': 'r',
+        'nfsConfig': 'cr',
     })

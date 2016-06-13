@@ -30,6 +30,7 @@
                 <value>io.cattle.platform.core.addon.ServicesPortRange</value>
                 <value>io.cattle.platform.core.addon.RecreateOnQuorumStrategyConfig</value>
                 <value>io.cattle.platform.core.addon.HaConfigInput</value>
+                <value>io.cattle.platform.core.addon.BlkioDeviceOption</value>
             </set>
         </property>
     </bean>
@@ -81,6 +82,11 @@
                 <value>composeProject,parent=environment</value>
                 <value>haConfig</value>
                 <value>machine,parent=physicalHost</value>
+                <value>revertToSnapshotInput</value>
+                <value>restoreFromBackupInput</value>
+                <value>snapshotBackupInput,parent=backup</value>
+                <value>volumeSnapshotInput</value>
+                <value>nfsConfig</value>
             </set>
         </property>
     </bean>
